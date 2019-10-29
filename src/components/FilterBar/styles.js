@@ -1,6 +1,10 @@
-import styled, { css } from 'styled-components';
+import styled, {
+  css
+} from 'styled-components';
 
-export const StyledFilterBar = styled.div(({theme, ...props}) => css`
+export const StyledFilterBar = styled.div(({
+  theme
+}) => css `
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,3 +13,13 @@ export const StyledFilterBar = styled.div(({theme, ...props}) => css`
   height: 44px;
 `)
 
+export const Icon = styled.img(({
+  theme,
+  selected
+}) => css `
+      width: 30px;
+    margin: 1px;
+    object-fit: scale-down;
+    filter: opacity(${selected ? '40%' : '100%'});
+    transition: all .3s;
+`)

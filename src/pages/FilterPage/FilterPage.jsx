@@ -7,6 +7,14 @@ const FilterPage = () => {
   const [cards, setCards] = useState(null);
   const [sets, setSets] = useState(null);
   const [activeSet, setActiveSet] = useState("ELD");
+  const [filter, setFilter] = useState({
+    Blue: false,
+    White: false,
+    Black: false,
+    Red: false,
+    Green: false,
+    Colorless: false,
+  })
 
   useEffect(() => {
     const url = "https://api.magicthegathering.io/v1";
@@ -58,18 +66,24 @@ const FilterPage = () => {
     fetchCards();
   }, [activeSet]);
 
-  const handleChange = event => {
+  const handleChangeSet = event => {
     setActiveSet(event.target.value);
   };
+
+  const handleSetFilter = event => {
+    setFilter({...filter, [event.target.alt]: !filter[event.target.alt]})
+  }
 
   return (
     <>
       <FilterBar
         sets={sets}
         activeSet={activeSet}
-        handleChange={handleChange}
+        handleChangeSet={handleChangeSet}
+        handleSetFilter={handleSetFilter}
+        filter={filter}
       />
-      <CardDisplay cards={cards} />
+      <CardDisplay cards={cards} filter={filter} />
     </>
   );
 };
