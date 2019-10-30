@@ -14,6 +14,10 @@ const FilterPage = () => {
     Red: false,
     Green: false,
     Colorless: false,
+    Common: false,
+    Uncommon: false,
+    Rare: false,
+    Mythic: false,
   })
 
   useEffect(() => {
@@ -71,7 +75,7 @@ const FilterPage = () => {
   };
 
   const handleSetFilter = event => {
-    setFilter({...filter, [event.target.alt]: !filter[event.target.alt]})
+    setFilter({...filter, [event.target.name]: !filter[event.target.name]})
   }
 
   return (

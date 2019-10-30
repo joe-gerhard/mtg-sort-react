@@ -1,8 +1,14 @@
 import React from "react";
-import { StyledFilterBar, Icon } from "./styles";
+import { StyledFilterBar, Icon, Button } from "./styles";
 import PropTypes from "prop-types";
 
-const FilterBar = ({ sets, activeSet, handleChangeSet, handleSetFilter, filter }) => {
+const FilterBar = ({
+  sets,
+  activeSet,
+  handleChangeSet,
+  handleSetFilter,
+  filter
+}) => {
   sets &&
     sets
       .sort((a, b) => {
@@ -15,53 +21,91 @@ const FilterBar = ({ sets, activeSet, handleChangeSet, handleSetFilter, filter }
 
   return (
     <StyledFilterBar>
-      <select value={activeSet} onChange={handleChangeSet}>
-        {sets &&
-          sets.map(
-            set =>
-              (set.type === "core" || set.type === "expansion") && (
-                <option key={set.code} value={set.code}>
-                  {set.code}
-                </option>
-              )
-          )}
-      </select>
-      <Icon
-        src="https://i.imgur.com/3f0zmrv.png"
-        alt="White"
-        onClick={handleSetFilter}
-        selected={filter.White}
-      />
-      <Icon
-        src="https://i.imgur.com/Cuo8vh4.png"
-        alt="Blue"
-        onClick={handleSetFilter}
-        selected={filter.Blue}
-      />
-      <Icon
-        src="https://i.imgur.com/1kCZTHy.png"
-        alt="Black"
-        onClick={handleSetFilter}
-        selected={filter.Black}
-      />
-      <Icon
-        src="https://i.imgur.com/ioTehMj.png"
-        alt="Red"
-        onClick={handleSetFilter}
-        selected={filter.Red}
-      />
-      <Icon
-        src="https://i.imgur.com/PMBUYLO.png"
-        alt="Green"
-        onClick={handleSetFilter}
-        selected={filter.Green}
-      />
-      <Icon
-        src="https://i.imgur.com/1U3ZyBD.png"
-        alt="Colorless"
-        onClick={handleSetFilter}
-        selected={filter.Colorless}
-      />
+      <div>
+        <select value={activeSet} onChange={handleChangeSet}>
+          {sets &&
+            sets.map(
+              set =>
+                (set.type === "core" || set.type === "expansion") && (
+                  <option key={set.code} value={set.code}>
+                    {set.code}
+                  </option>
+                )
+            )}
+        </select>
+        <Icon
+          src="https://i.imgur.com/3f0zmrv.png"
+          alt="White"
+          name="White"
+          onClick={handleSetFilter}
+          selected={filter.White}
+        />
+        <Icon
+          src="https://i.imgur.com/Cuo8vh4.png"
+          alt="Blue"
+          name="Blue"
+          onClick={handleSetFilter}
+          selected={filter.Blue}
+        />
+        <Icon
+          src="https://i.imgur.com/1kCZTHy.png"
+          alt="Black"
+          name="Black"
+          onClick={handleSetFilter}
+          selected={filter.Black}
+        />
+        <Icon
+          src="https://i.imgur.com/ioTehMj.png"
+          alt="Red"
+          name="Red"
+          onClick={handleSetFilter}
+          selected={filter.Red}
+        />
+        <Icon
+          src="https://i.imgur.com/PMBUYLO.png"
+          alt="Green"
+          name="Green"
+          onClick={handleSetFilter}
+          selected={filter.Green}
+        />
+        <Icon
+          src="https://i.imgur.com/1U3ZyBD.png"
+          alt="Colorless"
+          name="Colorless"
+          onClick={handleSetFilter}
+          selected={filter.Colorless}
+        />
+      </div>
+      <div>
+        <Button
+          name="Common"
+          onClick={handleSetFilter}
+          selected={filter.Common}
+        >
+          Common
+        </Button>
+        <Button
+          name="Uncommon"
+          onClick={handleSetFilter}
+          selected={filter.Uncommon}
+        >
+          Uncommon
+        </Button>
+        <Button
+          name="Rare"
+          onClick={handleSetFilter}
+          selected={filter.Rare}
+        >
+          Rare
+        </Button>
+        <Button
+          name="Mythic"
+          onClick={handleSetFilter}
+          selected={filter.Mythic}
+        >
+          Mythic
+        </Button>
+      </div>
     </StyledFilterBar>
   );
 };

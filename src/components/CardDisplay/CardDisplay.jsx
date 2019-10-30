@@ -5,7 +5,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 const CardDisplay = ({ cards, filter }) => {
   return (
     <StyledCardDisplay>
-      <TransitionGroup>
+      <TransitionGroup component={null}>
         {cards &&
           cards.map(card => {
             let filtered = false;
@@ -13,6 +13,7 @@ const CardDisplay = ({ cards, filter }) => {
               if (!filtered) filtered = filter[color];
             });
             if (card.colors.length === 0 && filter.Colorless) filtered = true;
+            if (!filtered) filtered = filter[card.rarity];
 
             return (
               card.imageUrl &&
