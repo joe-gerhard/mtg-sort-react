@@ -9,6 +9,12 @@ const CardDisplay = ({ cards, filter }) => {
         {cards &&
           cards.map(card => {
             let filtered = false;
+            if (filter.text !== '') {
+              filtered = true;
+              if (card.name.toLowerCase().includes(filter.text.toLowerCase())) filtered = false;
+              if (card.type.toLowerCase().includes(filter.text.toLowerCase())) filtered = false;
+              if (card.text && card.text.toLowerCase().includes(filter.text.toLowerCase())) filtered = false;
+            }
             card.colors.forEach(color => {
               if (!filtered) filtered = filter[color];
             });
@@ -18,6 +24,7 @@ const CardDisplay = ({ cards, filter }) => {
             return (
               card.imageUrl &&
               !card.type.includes("Adventure") &&
+              !card.type.includes("Basic Land") &&
               !filtered && (
                 <CSSTransition key={card.id} timeout={500} classNames="card">
                   <StyledImg

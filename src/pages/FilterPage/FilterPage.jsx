@@ -18,6 +18,7 @@ const FilterPage = () => {
     Uncommon: false,
     Rare: false,
     Mythic: false,
+    text: '',
   })
 
   useEffect(() => {
@@ -78,6 +79,10 @@ const FilterPage = () => {
     setFilter({...filter, [event.target.name]: !filter[event.target.name]})
   }
 
+  const handleSetTextFilter = event => {
+    setFilter({...filter, [event.target.name]: event.target.value})
+  }
+
   return (
     <>
       <FilterBar
@@ -85,6 +90,7 @@ const FilterPage = () => {
         activeSet={activeSet}
         handleChangeSet={handleChangeSet}
         handleSetFilter={handleSetFilter}
+        handleSetTextFilter={handleSetTextFilter}
         filter={filter}
       />
       <CardDisplay cards={cards} filter={filter} />

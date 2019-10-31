@@ -7,6 +7,7 @@ const FilterBar = ({
   activeSet,
   handleChangeSet,
   handleSetFilter,
+  handleSetTextFilter,
   filter
 }) => {
   sets &&
@@ -22,6 +23,7 @@ const FilterBar = ({
   return (
     <StyledFilterBar>
       <div>
+        <input type="text" name="text" value={filter.text} onChange={handleSetTextFilter}/>
         <select value={activeSet} onChange={handleChangeSet}>
           {sets &&
             sets.map(
@@ -113,7 +115,9 @@ const FilterBar = ({
 FilterBar.propTypes = {
   sets: PropTypes.array,
   activeSet: PropTypes.string,
-  handleChangeSet: PropTypes.func
+  handleChangeSet: PropTypes.func,
+  handleSetFilter: PropTypes.func,
+  handleSetTextFilter: PropTypes.func,
 };
 
 export default FilterBar;
