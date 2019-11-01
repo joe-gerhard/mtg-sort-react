@@ -35,6 +35,8 @@ const FilterBar = ({
                 )
             )}
         </select>
+      </div>
+      <div>
         <Icon
           src="https://i.imgur.com/3f0zmrv.png"
           alt="White"
