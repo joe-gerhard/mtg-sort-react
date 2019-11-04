@@ -9,12 +9,12 @@ import App from './pages/App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-<BrowserRouter>
-  <GlobalStyle />
-  <ThemeProvider theme={theme}>
-    <App />
-  </ThemeProvider>
-</BrowserRouter>
+  <BrowserRouter>
+    <GlobalStyle />
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </BrowserRouter>
 , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

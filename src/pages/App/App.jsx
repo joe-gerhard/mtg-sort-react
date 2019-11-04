@@ -1,25 +1,38 @@
-import React, { useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import React from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+import withFirebaseAuth from "react-with-firebase-auth";
+import * as firebase from "firebase/app";
+import "firebase/auth";
+import firebaseConfig from "../../utils/firebaseConfig";
 import Navbar from "../../components/Navbar";
-import FilterPage from '../FilterPage';
-import HomePage from '../HomePage';
-import LoginPage from '../LoginPage';
+import FilterPage from "../FilterPage";
+import LoginPage from "../LoginPage";
 
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const firebaseAppAuth = firebaseApp.auth();
+const providers = {
+  googleProvider: new firebase.auth.GoogleAuthProvider()
+};
 
-
-const App = () => {
-  const [user, setUser] = useState(null);
+const App = props => {
+  const { user, signOut, signInWithGoogle } = props;
 
   return (
     <>
-      <Navbar/>
+      <Navbar user={user} signOut={signOut} signInWithGoogle={signInWithGoogle} />
       <Switch>
-        <Route exact path="/filter" component={FilterPage}/>
-        <Route exact path="/login" render={routeProps => <LoginPage {...routeProps} user={user} setUser={setUser}/>}/>
-        <Route exact path="/" component={HomePage}/>
+        <Route exact path="/filter" component={FilterPage} />
+        <Route
+          exact
+          path="/login"
+          render={routeProps => <LoginPage {...routeProps} />}
+        />
+        <Route path="/">
+          <Redirect to="/filter"/>
+        </Route>
       </Switch>
     </>
   );
 };
 
-export default App;
+export default withFirebaseAuth({ providers, firebaseAppAuth })(App);

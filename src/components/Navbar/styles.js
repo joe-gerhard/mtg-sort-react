@@ -18,8 +18,12 @@ export const StyledLink = styled(Link)(({theme, ...props}) => css`
   color: ${theme.light};
   text-decoration: none;
   margin: 0 20px;
+`)
 
-  &:last-child {
-    margin-left: auto;
-  }
+export const StyledButton = styled.button(({ theme, ...props}) => css`
+  color: ${theme.light};
+  text-decoration: none;
+  margin: 0 20px 0 auto;
+  border: none;
+  background: none;
 `)
