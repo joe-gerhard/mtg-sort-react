@@ -7,6 +7,7 @@ const FilterPage = () => {
   const [cards, setCards] = useState(null);
   const [sets, setSets] = useState(null);
   const [activeSet, setActiveSet] = useState("ELD");
+  const [isLoading, setIsLoading] = useState(false);
   const [filter, setFilter] = useState({
     Blue: false,
     White: false,
@@ -18,15 +19,18 @@ const FilterPage = () => {
     Uncommon: false,
     Rare: false,
     Mythic: false,
-    text: '',
-  })
+    text: ""
+  });
 
   useEffect(() => {
+    let isSubscribed = true;
     const url = "https://api.magicthegathering.io/v1";
 
     setCards(null);
 
     const fetchCards = async () => {
+      setIsLoading(true);
+
       const resultArr = await axios.all([
         axios.get(url + "/cards", {
           params: {
@@ -59,16 +63,24 @@ const FilterPage = () => {
       resultArr.forEach(result => {
         combinedResults = [...combinedResults, ...result.data.cards];
       });
-      setCards(combinedResults);
+      if (isSubscribed) {
+        setCards(combinedResults);
+      }
+
+      setIsLoading(false);
     };
 
     const fetchSets = async () => {
       const results = await axios.get(url + "/sets");
-      setSets(results.data.sets);
+      if (isSubscribed) {
+        setSets(results.data.sets);
+      }
     };
 
     fetchSets();
     fetchCards();
+
+    return () => (isSubscribed = false);
   }, [activeSet]);
 
   const handleChangeSet = event => {
@@ -76,12 +88,12 @@ const FilterPage = () => {
   };
 
   const handleSetFilter = event => {
-    setFilter({...filter, [event.target.name]: !filter[event.target.name]})
-  }
+    setFilter({ ...filter, [event.target.name]: !filter[event.target.name] });
+  };
 
   const handleSetTextFilter = event => {
-    setFilter({...filter, [event.target.name]: event.target.value})
-  }
+    setFilter({ ...filter, [event.target.name]: event.target.value });
+  };
 
   return (
     <>
@@ -93,7 +105,11 @@ const FilterPage = () => {
         handleSetTextFilter={handleSetTextFilter}
         filter={filter}
       />
-      <CardDisplay cards={cards} filter={filter} />
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <CardDisplay cards={cards} filter={filter} />
+      )}
     </>
   );
 };

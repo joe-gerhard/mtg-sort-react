@@ -1,19 +1,12 @@
 import React from "react";
-import { StyledNavbar, StyledLink, StyledButton } from "./styles";
+import { StyledNavbar, StyledLink } from "./styles";
 
-const Navbar = ({ user, signOut, signInWithGoogle }) => {
+const Navbar = (props) => {
   return (
     <StyledNavbar>
+      <StyledLink to="/home">Home</StyledLink>
       <StyledLink to="/filter">Filter</StyledLink>
-      {
-        user 
-          && <StyledLink to="/profile">Profile</StyledLink>
-      }
-      {
-        user
-          ? <StyledButton onClick={signOut}>Sign Out</StyledButton>
-          : <StyledButton onClick={signInWithGoogle}>Sign In</StyledButton>
-      }
+      <StyledLink to="/login">Login</StyledLink>
     </StyledNavbar>
   );
 };
