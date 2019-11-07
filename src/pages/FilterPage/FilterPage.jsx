@@ -23,10 +23,8 @@ const FilterPage = () => {
   });
 
   useEffect(() => {
-    let isSubscribed = true;
+    let cancel = false;
     const url = "https://api.magicthegathering.io/v1";
-
-    setCards(null);
 
     const fetchCards = async () => {
       setIsLoading(true);
@@ -63,25 +61,30 @@ const FilterPage = () => {
       resultArr.forEach(result => {
         combinedResults = [...combinedResults, ...result.data.cards];
       });
-      if (isSubscribed) {
-        setCards(combinedResults);
+      if (cancel) {
+        return;
       }
 
+      setCards(combinedResults);
       setIsLoading(false);
     };
 
     const fetchSets = async () => {
       const results = await axios.get(url + "/sets");
-      if (isSubscribed) {
-        setSets(results.data.sets);
+      if (cancel) {
+        return;
       }
+      setSets(results.data.sets);
     };
 
     fetchSets();
     fetchCards();
 
-    return () => (isSubscribed = false);
-  }, [activeSet]);
+    return () => {
+      cancel = true;
+    };
+
+  }, [activeSet, setSets, setCards]);
 
   const handleChangeSet = event => {
     setActiveSet(event.target.value);
