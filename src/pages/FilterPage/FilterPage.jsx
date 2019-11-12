@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FilterBar from "../../components/FilterBar";
 import CardDisplay from "../../components/CardDisplay";
+import LoadingBar from "../../components/LoadingBar";
 
 const FilterPage = () => {
   const [cards, setCards] = useState(null);
@@ -109,7 +110,7 @@ const FilterPage = () => {
         filter={filter}
       />
       {isLoading ? (
-        <div>Loading...</div>
+        <LoadingBar />
       ) : (
         <CardDisplay cards={cards} filter={filter} />
       )}

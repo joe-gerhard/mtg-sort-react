@@ -5,7 +5,7 @@ import FilterPage from "../FilterPage";
 import LoginPage from "../LoginPage";
 import HomePage from "../HomePage";
 
-const App = props => {
+const App = () => {
   return (
     <>
       <Navbar />
