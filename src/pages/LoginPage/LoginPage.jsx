@@ -1,10 +1,22 @@
-import React from 'react';
+import React from "react";
+import { Redirect } from "react-router-dom";
+import SignInOptions from "../../components/SignInOptions";
 
-const LoginPage = ({ user, setUser }) => {
-
+const LoginPage = ({
+  user,
+  handleSignIn
+}) => {
   return (
-    <div>This is the Login page</div>
-  )
-}
+    <div>
+      {user ? (
+        <Redirect to="/profile" />
+      ) : (
+        <SignInOptions
+          handleSignIn={handleSignIn}
+        />
+      )}
+    </div>
+  );
+};
 
 export default LoginPage;
