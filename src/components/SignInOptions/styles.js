@@ -17,15 +17,18 @@ const Button = styled.button`
   width: 300px;
   height: 70px;
   background: grey;
-  border: none;
+  border: 3px solid white;
   border-radius: 10px;
   margin: 5px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  transition: border-color .4s;
+  color: white;
 
   &:hover {
     cursor: pointer;
+    border-color: transparent;
   }
 
   img {
@@ -38,15 +41,24 @@ const Button = styled.button`
 
 export const GoogleButton = styled(Button)`
   background: #D34F3E;
-  color: white;
+
+  &:hover {
+    background: #D34F3E;
+  }
 `
 
 export const FacebookButton = styled(Button)`
   background: #4765A8;
-  color: white;
+
+  &:hover {
+    background: #4765A8;
+  }
 `
 
 export const TwitterButton = styled(Button)`
   background: #6BACE9;
-  color: white;
+
+  &:hover {
+    background: #6BACE9;
+  }
 `

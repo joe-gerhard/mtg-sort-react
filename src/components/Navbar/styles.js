@@ -29,4 +29,8 @@ export const StyledButton = styled.button(({ theme, ...props}) => css`
   margin-left: ${props.marginleft ? props.marginleft : '20px'};
   border: none;
   background: none;
+
+  &:hover {
+    cursor: pointer;
+  }
 `)
