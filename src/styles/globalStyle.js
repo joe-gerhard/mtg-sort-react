@@ -9,6 +9,15 @@ const GlobalStyle = createGlobalStyle `
   padding: 0;
   font-family: 'Quicksand', sans-serif;
   font-size: 14px;
+
+  h1 {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
   
   &:focus {
     outline: 0;

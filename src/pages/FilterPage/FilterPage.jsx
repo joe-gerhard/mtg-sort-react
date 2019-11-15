@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import FilterBar from "../../components/FilterBar";
 import CardDisplay from "../../components/CardDisplay";
 import LoadingBar from "../../components/LoadingBar";
 
-const FilterPage = () => {
-  const [cards, setCards] = useState(null);
-  const [sets, setSets] = useState(null);
-  const [activeSet, setActiveSet] = useState("ELD");
-  const [isLoading, setIsLoading] = useState(false);
+const FilterPage = ({ sets, activeSet, handleChangeSet, isLoading, cards }) => {
+
   const [filter, setFilter] = useState({
     Blue: false,
     White: false,
@@ -22,74 +18,6 @@ const FilterPage = () => {
     Mythic: false,
     text: ""
   });
-
-  useEffect(() => {
-    let cancel = false;
-    const url = "https://api.magicthegathering.io/v1";
-
-    const fetchCards = async () => {
-      setIsLoading(true);
-
-      const resultArr = await axios.all([
-        axios.get(url + "/cards", {
-          params: {
-            set: activeSet,
-            page: 1
-          }
-        }),
-        axios.get(url + "/cards", {
-          params: {
-            set: activeSet,
-            page: 2
-          }
-        }),
-        axios.get(url + "/cards", {
-          params: {
-            set: activeSet,
-            page: 3
-          }
-        }),
-        axios.get(url + "/cards", {
-          params: {
-            set: activeSet,
-            page: 4
-          }
-        })
-      ]);
-
-      let combinedResults = [];
-
-      resultArr.forEach(result => {
-        combinedResults = [...combinedResults, ...result.data.cards];
-      });
-      if (cancel) {
-        return;
-      }
-
-      setCards(combinedResults);
-      setIsLoading(false);
-    };
-
-    const fetchSets = async () => {
-      const results = await axios.get(url + "/sets");
-      if (cancel) {
-        return;
-      }
-      setSets(results.data.sets);
-    };
-
-    fetchSets();
-    fetchCards();
-
-    return () => {
-      cancel = true;
-    };
-
-  }, [activeSet, setSets, setCards]);
-
-  const handleChangeSet = event => {
-    setActiveSet(event.target.value);
-  };
 
   const handleSetFilter = event => {
     setFilter({ ...filter, [event.target.name]: !filter[event.target.name] });

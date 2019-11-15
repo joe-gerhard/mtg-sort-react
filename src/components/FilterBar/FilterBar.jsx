@@ -10,15 +10,6 @@ const FilterBar = ({
   handleSetTextFilter,
   filter
 }) => {
-  sets &&
-    sets
-      .sort((a, b) => {
-        if (a.releaseDate.slice(0, 4) - b.releaseDate.slice(0, 4) > 0) return 1;
-        if (a.releaseDate.slice(0, 4) - b.releaseDate.slice(0, 4) < 0)
-          return -1;
-        return a.releaseDate.slice(5, 7) - b.releaseDate.slice(5, 7);
-      })
-      .reverse();
 
   return (
     <StyledFilterBar>
