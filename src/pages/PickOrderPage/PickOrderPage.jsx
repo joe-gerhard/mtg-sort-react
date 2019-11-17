@@ -3,7 +3,7 @@ import { db } from "../../utils/firebase";
 import PickOrderDisplay from "../../components/PickOrderDisplay";
 import LoadingBar from "../../components/LoadingBar";
 
-const PickOrderPage = ({ match }) => {
+const PickOrderPage = ({ match, history }) => {
   const [pickOrder, setPickOrder] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,7 +37,7 @@ const PickOrderPage = ({ match }) => {
 
   return (
     <>
-      {isLoading ? <LoadingBar /> : <PickOrderDisplay pickOrder={pickOrder} />}
+      {isLoading ? <LoadingBar /> : <PickOrderDisplay pickOrder={pickOrder} history={history}/>}
     </>
   );
 };

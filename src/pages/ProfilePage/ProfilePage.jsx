@@ -5,7 +5,7 @@ import { Button } from "./styles";
 import { db } from "../../utils/firebase";
 import DeleteButton from "../../components/DeleteButton";
 
-const ProfilePage = ({ user, sets, activeSet, cards, handleChangeSet }) => {
+const ProfilePage = ({ user, sets, activeSet, cards, handleChangeSet, isLoading }) => {
   const [pickOrders, setPickOrders] = useState(null);
 
   useEffect(() => {
@@ -97,7 +97,7 @@ const ProfilePage = ({ user, sets, activeSet, cards, handleChangeSet }) => {
             ))}
           <Row>
             <Cell>
-              <Button onClick={handleCreateNewPickOrder}>
+              <Button disabled={isLoading} onClick={handleCreateNewPickOrder}>
                 Create New Pick Order
               </Button>
             </Cell>

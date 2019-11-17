@@ -5,5 +5,5 @@ export default {
   veryLight: '#eeeeee',
   primary: '#ebbd1e',
   primaryDark: '#d1a91d',
-  highlight: '#FFFD58'
+  highlight: '#fffd9c'
 };

@@ -173,6 +173,7 @@ const App = () => {
                 activeSet={activeSet}
                 cards={cards}
                 handleChangeSet={handleChangeSet}
+                isLoading={isLoading}
               />
             )}
           />
