@@ -22,9 +22,6 @@ const CardDisplay = ({ cards, filter }) => {
             if (!filtered) filtered = filter[card.rarity];
 
             return (
-              card.imageUrl &&
-              !card.type.includes("Adventure") &&
-              !card.type.includes("Basic Land") &&
               !filtered && (
                 <CSSTransition key={card.id} timeout={500} classNames="card">
                   <StyledImg

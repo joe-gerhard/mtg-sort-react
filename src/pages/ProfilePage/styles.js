@@ -26,11 +26,11 @@ export const Row = styled.div(({ theme, head }) => css`
   }
 `)
 
-export const Cell = styled.div(({ theme }) => css`
+export const Cell = styled.div(({ theme, wide }) => css`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 200px;
+  width: ${wide ? '300px' : '200px'};
   height: 30px;
   padding: 5px 20px;
 

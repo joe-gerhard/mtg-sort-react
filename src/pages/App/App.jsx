@@ -7,6 +7,7 @@ import LoginPage from "../LoginPage";
 import HomePage from "../HomePage";
 import firebase from "../../utils/firebase";
 import ProfilePage from "../ProfilePage";
+import PickOrderPage from "../PickOrderPage";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -14,16 +15,7 @@ const App = () => {
   const [activeSet, setActiveSet] = useState("ELD");
   const [cards, setCards] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  sets &&
-  sets
-    .sort((a, b) => {
-      if (a.releaseDate.slice(0, 4) - b.releaseDate.slice(0, 4) > 0) return 1;
-      if (a.releaseDate.slice(0, 4) - b.releaseDate.slice(0, 4) < 0)
-        return -1;
-      return a.releaseDate.slice(5, 7) - b.releaseDate.slice(5, 7);
-    })
-    .reverse();
+  const url = "https://api.magicthegathering.io/v1";
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(currentUser => {
@@ -37,13 +29,27 @@ const App = () => {
 
   useEffect(() => {
     let isMounted = true;
-    const url = "https://api.magicthegathering.io/v1";
+
     const fetchSets = async () => {
       const results = await axios.get(url + "/sets");
       if (!isMounted) {
         return;
       }
-      setSets(results.data.sets);
+      let fetchedSets = results.data.sets;
+      fetchedSets = fetchedSets.filter(
+        set => set.type === "core" || set.type === "expansion"
+      );
+
+      fetchedSets
+        .sort((a, b) => {
+          if (a.releaseDate.slice(0, 4) - b.releaseDate.slice(0, 4) > 0)
+            return 1;
+          if (a.releaseDate.slice(0, 4) - b.releaseDate.slice(0, 4) < 0)
+            return -1;
+          return a.releaseDate.slice(5, 7) - b.releaseDate.slice(5, 7);
+        })
+        .reverse();
+      setSets(fetchedSets);
     };
 
     fetchSets();
@@ -54,7 +60,6 @@ const App = () => {
 
   useEffect(() => {
     let cancel = false;
-    const url = "https://api.magicthegathering.io/v1";
 
     const fetchCards = async () => {
       setIsLoading(true);
@@ -94,7 +99,13 @@ const App = () => {
       if (cancel) {
         return;
       }
-
+      combinedResults = combinedResults.filter(card => {
+        return (
+          card.imageUrl &&
+          !card.type.includes("Adventure") &&
+          !card.type.includes("Basic Land")
+        );
+      });
       setCards(combinedResults);
       setIsLoading(false);
     };
@@ -104,7 +115,6 @@ const App = () => {
     return () => {
       cancel = true;
     };
-
   }, [activeSet, setCards]);
 
   const handleChangeSet = event => {
@@ -156,7 +166,14 @@ const App = () => {
             exact
             path="/profile"
             render={routeProps => (
-              <ProfilePage {...routeProps} user={user} sets={sets} activeSet={activeSet} handleChangeSet={handleChangeSet}/>
+              <ProfilePage
+                {...routeProps}
+                user={user}
+                sets={sets}
+                activeSet={activeSet}
+                cards={cards}
+                handleChangeSet={handleChangeSet}
+              />
             )}
           />
         )}
@@ -170,6 +187,11 @@ const App = () => {
               handleSignIn={handleSignIn}
             />
           )}
+        />
+        <Route
+          exact
+          path="/pickorder/:id"
+          render={routeProps => <PickOrderPage {...routeProps }/>}
         />
         <Route path="/" component={HomePage} />
       </Switch>

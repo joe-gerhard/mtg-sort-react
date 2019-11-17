@@ -19,7 +19,7 @@ const FilterBar = ({
           {sets &&
             sets.map(
               set =>
-                (set.type === "core" || set.type === "expansion") && (
+                (
                   <option key={set.code} value={set.code}>
                     {set.code}
                   </option>

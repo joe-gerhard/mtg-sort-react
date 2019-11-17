@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { StyledProfilePage, Row, Cell, Table } from "./styles";
 import { Button } from "./styles";
 import { db } from "../../utils/firebase";
 import DeleteButton from "../../components/DeleteButton";
 
-const ProfilePage = ({ user, sets, activeSet, handleChangeSet }) => {
+const ProfilePage = ({ user, sets, activeSet, cards, handleChangeSet }) => {
   const [pickOrders, setPickOrders] = useState(null);
 
   useEffect(() => {
@@ -36,12 +37,26 @@ const ProfilePage = ({ user, sets, activeSet, handleChangeSet }) => {
     };
   }, [user.uid, pickOrders]);
 
+  const assignPickOrderToCards = (cardsArr) => {
+    const picks = []
+    cardsArr.forEach((card, idx) => {
+      let temp = {
+        name: card.name,
+        pickOrder: idx + 1, 
+        tier: 1,
+      }
+      picks.push(temp)
+    })
+    return picks;
+  }
+
   const handleCreateNewPickOrder = () => {
     db.collection("pick-orders").add({
       name: "New Pick Order",
       user: user.uid,
       set: activeSet,
-      dateCreated: Date()
+      dateCreated: Date(),
+      picks: assignPickOrderToCards(cards),
     });
     setPickOrders([...pickOrders]);
   };
@@ -69,7 +84,7 @@ const ProfilePage = ({ user, sets, activeSet, handleChangeSet }) => {
           {pickOrders &&
             pickOrders.map(pickOrder => (
               <Row key={pickOrder.id}>
-                <Cell>{pickOrder.name}</Cell>
+                <Cell><Link to={`/pickorder/${pickOrder.id}`}>{pickOrder.name}</Link></Cell>
                 <Cell>{pickOrder.set}</Cell>
                 <Cell>{pickOrder.dateCreated.slice(0, 15)}</Cell>
                 <Cell>
