@@ -23,6 +23,7 @@ export const Header = styled.div `
       border: 1px solid grey;
       border-radius: 5px;
       padding: 0 10px;
+      margin: 0 10px;
     }
   }
 `

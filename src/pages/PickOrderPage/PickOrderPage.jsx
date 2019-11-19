@@ -5,12 +5,10 @@ import LoadingBar from "../../components/LoadingBar";
 
 const PickOrderPage = ({ match, history }) => {
   const [pickOrder, setPickOrder] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
     const fetchPickOrder = () => {
-      setIsLoading(true);
       db.collection("pick-orders")
         .doc(match.params.id)
         .get()
@@ -20,7 +18,6 @@ const PickOrderPage = ({ match, history }) => {
           } else {
             if (isMounted) {
               setPickOrder(doc.data());
-              setIsLoading(false);
             }
           }
         })
@@ -37,7 +34,7 @@ const PickOrderPage = ({ match, history }) => {
 
   return (
     <>
-      {isLoading ? <LoadingBar /> : <PickOrderDisplay pickOrder={pickOrder} history={history}/>}
+      {!pickOrder ? <LoadingBar /> : <PickOrderDisplay pickOrder={pickOrder} setPickOrder={setPickOrder} history={history}/>}
     </>
   );
 };

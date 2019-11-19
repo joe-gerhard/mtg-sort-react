@@ -1,62 +1,51 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Table, Row, Cell, Header, ButtonRow } from "./styles";
 import { StyledPickOrderDisplay, NumberInput } from "./styles";
 
-const PickOrderDisplay = ({ pickOrder, history }) => {
-  const [inputs, setInputs] = useState({
-    name: '',
-    set: '',
-    dateCreated: ''
-  });
-  const [picks, setPicks] = useState([]);
+const PickOrderDisplay = ({ pickOrder, setPickOrder, history }) => {
+ 
+  const [picks, setPicks] = useState(init())
+  const [name, setName] = useState(pickOrder.name)
 
-  useEffect(() => {
-    let isMounted = true;
-    if (isMounted && pickOrder) {
-      setInputs({
-        name: pickOrder.name,
-        set: pickOrder.set,
-        dateCreated: pickOrder.dateCreated
-      });
-      setPicks(pickOrder.picks);
-    }
-    return () => {
-      isMounted = false;
-    };
-  }, [pickOrder]);
+  function init() {
+    let picksArr = []
+    pickOrder.picks.forEach(pick => {
+      let temp = {
+        name: pick.name,
+        pickOrder: pick.pickOrder,
+        tier: pick.tier
+      }
+      picksArr.push(temp)
+    })
+    return picksArr;
+  }
 
   const handleChange = e => {
-    setInputs({
-      ...inputs,
-      [e.target.name]: e.target.value
-    });
+    setName(e.target.value);
   };
 
   const handleChangePickOrder = e => {
     let value = e.target.value;
     if (value > 300) value = 300;
     if (value < 0) value = 0;
+    let temp = [...picks];
 
-    picks[e.target.name].pickOrder = value;
-    setPicks([...picks]);
+    temp[e.target.name].pickOrder = value;
+    setPicks([...temp])
   };
 
   const handleChangeTier = e => {
     let value = e.target.value;
     if (value > 8) value = 8;
     if (value < 0) value = 0;
-
-    picks[e.target.name].tier = value;
-    setPicks([...picks]);
+    let temp = [...picks];
+    temp[e.target.name].tier = value;
+    setPicks([...temp])
   };
 
   const handleReset = () => {
-    setInputs({
-      name: pickOrder.name,
-      set: pickOrder.set,
-      dateCreated: pickOrder.dateCreated
-    });
-    setPicks(pickOrder.picks);
+    setPicks(init())
+    setName(pickOrder.name)
   };
 
   return (
@@ -64,16 +53,14 @@ const PickOrderDisplay = ({ pickOrder, history }) => {
       <Header>
         <div>
           Name:
-          {inputs && (
             <input
               type="text"
               name="name"
-              value={inputs.name}
+              value={name}
               onChange={handleChange}
             />
-          )}
         </div>
-        <div>Set: {inputs.set}</div>
+        <div>Set: {pickOrder.set}</div>
       </Header>
       <ButtonRow>
         <button onClick={() => history.goBack()}>Back</button>
@@ -81,8 +68,7 @@ const PickOrderDisplay = ({ pickOrder, history }) => {
         <button>Save Changes</button>
       </ButtonRow>
       <Table>
-        {picks &&
-          picks.map((pick, idx) => (
+        {picks.map((pick, idx) => (
             <Row key={pick.name} even={idx % 2 === 0}>
               <Cell wide>{pick.name}</Cell>
               <Cell>
