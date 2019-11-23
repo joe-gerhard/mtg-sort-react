@@ -59,7 +59,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    let cancel = false;
+    let isMounted = true;
 
     const fetchCards = async () => {
       setIsLoading(true);
@@ -96,7 +96,7 @@ const App = () => {
       resultArr.forEach(result => {
         combinedResults = [...combinedResults, ...result.data.cards];
       });
-      if (cancel) {
+      if (!isMounted) {
         return;
       }
       combinedResults = combinedResults.filter(card => {
@@ -113,7 +113,7 @@ const App = () => {
     fetchCards();
 
     return () => {
-      cancel = true;
+      isMounted = false;
     };
   }, [activeSet, setCards]);
 
