@@ -34,7 +34,7 @@ const PickOrderPage = ({ match, history }) => {
 
   return (
     <>
-      {!pickOrder ? <LoadingBar /> : <PickOrderDisplay pickOrder={pickOrder} setPickOrder={setPickOrder} history={history}/>}
+      {!pickOrder ? <LoadingBar /> : <PickOrderDisplay pickOrder={pickOrder} setPickOrder={setPickOrder} history={history} db={db} id={match.params.id}/>}
     </>
   );
 };

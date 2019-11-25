@@ -33,9 +33,10 @@ export const ButtonRow = styled.div(({
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10px;
 
   button {
-    margin: 0 10px 10px 10px;
+    margin: 0 5px;
     padding: 1px 10px;
     border-radius: 4px;
     border: 1px solid ${theme.medium};
@@ -47,6 +48,16 @@ export const ButtonRow = styled.div(({
     }
   }
 
+`)
+
+export const ConfirmSubmitIcon = styled.img(({
+  theme,
+  isSaved
+}) => css `
+    width: 23px;
+    object-fit: scale-down;
+    opacity: ${isSaved ? 100 : 0};
+    transition: opacity .3s;
 `)
 
 export const NumberInput = styled.input `
