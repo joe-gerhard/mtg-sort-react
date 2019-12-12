@@ -1,0 +1,2 @@
+export const SETS_REQUESTED = "SETS_REQUESTED"
+export const SETS_LOADED = "SETS_LOADED"
